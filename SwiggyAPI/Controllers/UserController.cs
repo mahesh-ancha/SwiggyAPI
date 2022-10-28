@@ -36,6 +36,16 @@ namespace SwiggyAPI.Controllers
 
             return Ok("Success");
         }
+        [HttpPost("loginUser")]
+        public IActionResult LoginUser(Login user)
+        {
+            var useravailable = _userContext.Users.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefault();
+            if (useravailable != null)
+            {
+                return Ok("Success");
+            }
+            return Ok("Failure");
+        }
     }
 }
 

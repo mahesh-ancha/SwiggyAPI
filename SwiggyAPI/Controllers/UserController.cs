@@ -46,7 +46,14 @@ namespace SwiggyAPI.Controllers
             var useravailable = _userContext.Users.Where(u => u.Email == login.Email && u.Password == login.Password).FirstOrDefault();
             if (useravailable != null)
             {
-                return Ok("Success");
+                return Ok(new JwtService(_config).GenerateToken(
+                   useravailable.UserID.ToString(),
+                   useravailable.FirstName,
+                   useravailable.LastName,
+                   useravailable.Email,
+                   useravailable.MobileNumber,
+                   useravailable.Gender
+                ));
             }
             return Ok("Failure");
         }

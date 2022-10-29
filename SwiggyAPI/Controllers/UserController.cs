@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,7 @@ namespace SwiggyAPI.Controllers
             _config = configuration;
             _userContext = userContext;
         }
+        [AllowAnonymous]
         [HttpPost("createUser")]
         public IActionResult CreateUser(User user)
         {
@@ -36,10 +38,12 @@ namespace SwiggyAPI.Controllers
 
             return Ok("Success");
         }
+
+        [AllowAnonymous]
         [HttpPost("loginUser")]
-        public IActionResult LoginUser(Login user)
+        public IActionResult LoginUser(Login login)
         {
-            var useravailable = _userContext.Users.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefault();
+            var useravailable = _userContext.Users.Where(u => u.Email == login.Email && u.Password == login.Password).FirstOrDefault();
             if (useravailable != null)
             {
                 return Ok("Success");

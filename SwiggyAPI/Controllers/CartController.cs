@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SwiggyAPI.Models;
 using System;
@@ -10,6 +11,8 @@ namespace SwiggyAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("AllowOrigin")]
+
     public class CartController : Controller
     {
 
@@ -23,14 +26,13 @@ namespace SwiggyAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCart()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = await _context.Cart.ToListAsync();
             return Ok(products);
         }
         [HttpPost]
-        public async Task<IActionResult> AddCart(int productId)
+        public async Task<IActionResult> AddCart([FromBody] Products product)
         {
-            Cart cart=new Cart();
-            var product = await _context.Products.FindAsync(productId);
+            Cart cart = new Cart();
             cart.ProductName = product.ProductName;
             cart.Img = product.Img;
             cart.Category = product.Category;

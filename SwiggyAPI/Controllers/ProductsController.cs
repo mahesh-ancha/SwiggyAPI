@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SwiggyAPI.Models;
 using System;
@@ -11,6 +12,8 @@ namespace SwiggyAPI.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
+
     public class ProductsController : ControllerBase
     {
         private readonly UserContext _context;
@@ -31,6 +34,20 @@ namespace SwiggyAPI.Controllers
             await _context.SaveChangesAsync();
             return Ok(p);
         }
+        //[HttpPost("AddCart/{productId}")]
+        //public async Task<IActionResult> AddCart(int productId)
+        //{
+        //    Cart cart = new Cart();
+        //    var product = await _context.Products.FindAsync(productId);
+        //    cart.ProductName = product.ProductName;
+        //    cart.Img = product.Img;
+        //    cart.Category = product.Category;
+        //    cart.Quantity = product.Quantity;
+        //    cart.price = product.price;
+        //    await _context.Cart.AddAsync(cart);
+        //    await _context.SaveChangesAsync();
+        //    return Ok(cart);
+        //}
         [HttpDelete]
         public async Task<IActionResult> DeleteProduct([FromBody] int ProductId)
         {

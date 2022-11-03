@@ -57,11 +57,18 @@ namespace SwiggyAPI
             });
 
             services.AddControllers();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("swagger/v1/swagger.json", "v1");
+                c.RoutePrefix = "";
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
